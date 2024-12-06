@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro para Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .form-container h1 {
+            margin-bottom: 15px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Baixe o PDF</h1>
+        <form id="leadForm">
+            <input type="text" id="name" name="name" placeholder="Seu Nome" required>
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Seu WhatsApp" required>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("leadForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const whatsapp = document.getElementById("whatsapp").value;
+
+    // Substitua pela URL do seu Web App
+    const webhookURL = "https://script.google.com/macros/s/AKfycbxoVQ_GBRZU63vE87D2fgmAGsP4WTEydOajeD06c-qV2gluBfNp_MuAaNbMEkwwA_tj/exec";
+
+    const data = {
+        name: name,
+        whatsapp: whatsapp,
+    };
+
+    fetch(webhookURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            console.log("Dados enviados com sucesso!");
+            window.location.href = "pagina-de-download.html";
+        } else {
+            console.error("Erro no servidor:", result.error);
+            alert("Houve um problema ao enviar os dados. Tente novamente.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro de conexão:", error);
+        alert("Erro de conexão. Verifique sua internet ou tente novamente.");
+    });
+});
+
+    </script>
+</body>
+</html>
