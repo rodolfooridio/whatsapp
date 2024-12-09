@@ -54,14 +54,13 @@
     </div>
 
     <script>
-        document.getElementById("leadForm").addEventListener("submit", function (e) {
+       document.getElementById("leadForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
     const name = document.getElementById("name").value;
     const whatsapp = document.getElementById("whatsapp").value;
 
-    // Substitua pela URL do seu Web App
-    const webhookURL = "https://script.google.com/macros/s/AKfycbxoVQ_GBRZU63vE87D2fgmAGsP4WTEydOajeD06c-qV2gluBfNp_MuAaNbMEkwwA_tj/exec";
+    const webhookURL = "https://script.google.com/macros/s/AKfycbx12345abcdeXYZ/exec"; // Substitua pela URL do Web App
 
     const data = {
         name: name,
