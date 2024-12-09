@@ -1,95 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt_br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro para Download</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f9f9f9;
-        }
-        .form-container {
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-        .form-container h1 {
-            margin-bottom: 15px;
-        }
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .form-container button:hover {
-            background-color: #45a049;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário com EmailJS</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    // Inicialize o EmailJS com sua Public Key
+    (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); // Substitua pela sua Public Key
+    })();
+  </script>
 </head>
 <body>
-    <div class="form-container">
-        <h1>Baixe o PDF</h1>
-        <form id="leadForm">
-            <input type="text" id="name" name="name" placeholder="Seu Nome" required>
-            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Seu WhatsApp" required>
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
+  <h1>Formulário de Cadastro</h1>
+  <form id="leadForm">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required><br><br>
 
-    <script>
-       document.getElementById("leadForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+    <label for="whatsapp">WhatsApp:</label>
+    <input type="text" id="whatsapp" name="whatsapp" required><br><br>
 
-    const name = document.getElementById("name").value;
-    const whatsapp = document.getElementById("whatsapp").value;
+    <button type="submit">Enviar</button>
+  </form>
 
-    const webhookURL = "https://script.google.com/macros/s/AKfycbxoVQ_GBRZU63vE87D2fgmAGsP4WTEydOajeD06c-qV2gluBfNp_MuAaNbMEkwwA_tj/exec"; // Substitua pela URL do Web App
+  <script>
+    document.getElementById("leadForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    const data = {
+      // Obtenha os valores do formulário
+      const name = document.getElementById("name").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+
+      // Configure os parâmetros para o EmailJS
+      const templateParams = {
         name: name,
-        whatsapp: whatsapp,
-    };
+        whatsapp: whatsapp
+      };
 
-    fetch(webhookURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            console.log("Dados enviados com sucesso!");
-            window.location.href = "pagina-de-download.html";
-        } else {
-            console.error("Erro no servidor:", result.error);
-            alert("Houve um problema ao enviar os dados. Tente novamente.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro de conexão:", error);
-        alert("Erro de conexão. Verifique sua internet ou tente novamente.");
+      // Substitua 'YOUR_SERVICE_ID' e 'YOUR_TEMPLATE_ID' pelos seus IDs
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        .then(function(response) {
+          alert("Dados enviados com sucesso!");
+          window.location.href = "pagina-de-download.html"; // Redireciona para a página de download
+        }, function(error) {
+          console.error("Erro ao enviar dados:", error);
+          alert("Houve um erro ao enviar os dados. Tente novamente.");
+        });
     });
-});
-
-    </script>
+  </script>
 </body>
 </html>
